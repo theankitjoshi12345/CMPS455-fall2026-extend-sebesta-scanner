@@ -24,18 +24,23 @@ int lex(void);
 /* Character classes */
 #define LETTER 0
 #define DIGIT 1
+#define DEC_POINT 2
+#define COLON_CHAR 3
+#define EQUAL_CHAR 4
 #define UNKNOWN 99
 
 /* Token codes */
-#define INT_LIT 10
-#define IDENT 11
-#define ASSIGN_OP 20
+#define FLOAT_LIT 10
+#define VARNAME 11
 #define ADD_OP 21
 #define SUB_OP 22
 #define MULT_OP 23
 #define DIV_OP 24
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
+#define IF_KEY 27
+#define ELSE_KEY 28
+#define ASSIGN_OP 29
 
 int main(int argc, const char *argv[])
 {
@@ -138,7 +143,7 @@ int lex(void)
             addChar();
             getChar();
         }
-        nextToken = IDENT;
+        nextToken = VARNAME;
         break;
     case DIGIT:
         addChar();
@@ -147,7 +152,7 @@ int lex(void)
             addChar();
             getChar();
         }
-        nextToken = INT_LIT;
+        nextToken = FLOAT_LIT;
         break;
     case UNKNOWN:
         lookup(nextChar);

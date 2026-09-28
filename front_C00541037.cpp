@@ -23,16 +23,22 @@ int lex();
 
 const int LETTER = 0;
 const int DIGIT = 1;
+const int DEC_POINT = 2;
+const int COLON_CHAR = 3;
+const int EQUAL_CHAR = 4;
 const int UNKNOWN = 99;
 
-const int INT_LIT = 10;
-const int IDENT = 11;
+const int FLOAT_LIT = 10;
+const int VARNAME = 11;
 const int ADD_OP = 21;
 const int SUB_OP = 22;
 const int MULT_OP = 23;
 const int DIV_OP = 24;
 const int LEFT_PAREN = 25;
 const int RIGHT_PAREN = 26;
+const int IF_KEY = 27;
+const int ELSE_KEY = 28;
+const int ASSIGN_OP = 29;
 
 int main(int argc, const char *argv[])
 {
@@ -128,7 +134,7 @@ int lex()
             my_addChar();
             my_getChar();
         }
-        nextToken = IDENT;
+        nextToken = VARNAME;
         break;
     case DIGIT:
         my_addChar();
@@ -137,7 +143,7 @@ int lex()
             my_addChar();
             my_getChar();
         }
-        nextToken = INT_LIT;
+        nextToken = FLOAT_LIT;
         break;
     case UNKNOWN:
         lookup(nextChar);
