@@ -68,13 +68,14 @@ void my_addChar()
 
 void my_getChar()
 {
-    in_fp >> nextChar;
-    if (in_fp.eof()) {
+    if (!in_fp.get(nextChar)) {
         charClass = EOF;
     } else if (isalpha((unsigned char)nextChar)) {
         charClass = LETTER;
     } else if (isdigit((unsigned char)nextChar)) {
         charClass = DIGIT;
+    } else if (nextChar == '.') {
+        charClass = DEC_POINT;
     } else {
         charClass = UNKNOWN;
     }
@@ -82,7 +83,7 @@ void my_getChar()
 
 void getNonBlank()
 {
-    while (isspace((unsigned char)nextChar))
+    while (charClass != EOF && isspace((unsigned char)nextChar))
         my_getChar();
 }
 
@@ -143,7 +144,19 @@ int lex()
             my_addChar();
             my_getChar();
         }
+        if (charClass == DEC_POINT) {
+            my_addChar();
+            my_getChar();
+            while (charClass == DIGIT) {
+                my_addChar();
+                my_getChar();
+            }
+        }
         nextToken = FLOAT_LIT;
+        break;
+    case DEC_POINT:
+        lookup(nextChar);
+        my_getChar();
         break;
     case UNKNOWN:
         lookup(nextChar);

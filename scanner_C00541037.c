@@ -82,6 +82,8 @@ void getChar(void)
             charClass = LETTER;
         else if (isdigit((unsigned char)nextChar))
             charClass = DIGIT;
+        else if (nextChar == '.')
+            charClass = DEC_POINT;
         else
             charClass = UNKNOWN;
     } else {
@@ -91,7 +93,7 @@ void getChar(void)
 
 void getNonBlank(void)
 {
-    while (isspace((unsigned char)nextChar))
+    while (charClass != EOF && isspace((unsigned char)nextChar))
         getChar();
 }
 
@@ -152,7 +154,19 @@ int lex(void)
             addChar();
             getChar();
         }
+        if (charClass == DEC_POINT) {
+            addChar();
+            getChar();
+            while (charClass == DIGIT) {
+                addChar();
+                getChar();
+            }
+        }
         nextToken = FLOAT_LIT;
+        break;
+    case DEC_POINT:
+        lookup(nextChar);
+        getChar();
         break;
     case UNKNOWN:
         lookup(nextChar);
