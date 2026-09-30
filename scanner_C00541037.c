@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include <unistd.h>
 
 /* Global variables */
@@ -145,7 +146,12 @@ int lex(void)
             addChar();
             getChar();
         }
-        nextToken = VARNAME;
+        if (strcmp(lexeme, "if") == 0)
+            nextToken = IF_KEY;
+        else if (strcmp(lexeme, "else") == 0)
+            nextToken = ELSE_KEY;
+        else
+            nextToken = VARNAME;
         break;
     case DIGIT:
         addChar();

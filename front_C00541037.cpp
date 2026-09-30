@@ -135,7 +135,12 @@ int lex()
             my_addChar();
             my_getChar();
         }
-        nextToken = VARNAME;
+        if (lexeme == "if")
+            nextToken = IF_KEY;
+        else if (lexeme == "else")
+            nextToken = ELSE_KEY;
+        else
+            nextToken = VARNAME;
         break;
     case DIGIT:
         my_addChar();
