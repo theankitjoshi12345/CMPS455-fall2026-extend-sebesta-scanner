@@ -76,6 +76,8 @@ void my_getChar()
         charClass = DIGIT;
     } else if (nextChar == '.') {
         charClass = DEC_POINT;
+    } else if (nextChar == ':') {
+        charClass = COLON_CHAR;
     } else {
         charClass = UNKNOWN;
     }
@@ -116,7 +118,7 @@ int lookup(char ch)
         break;
     default:
         my_addChar();
-        nextToken = EOF;
+        nextToken = UNKNOWN;
         break;
     }
     return nextToken;
@@ -162,6 +164,17 @@ int lex()
     case DEC_POINT:
         lookup(nextChar);
         my_getChar();
+        break;
+    case COLON_CHAR:
+        my_addChar();
+        my_getChar();
+        if (nextChar == '=') {
+            my_addChar();
+            my_getChar();
+            nextToken = ASSIGN_OP;
+        } else {
+            nextToken = UNKNOWN;
+        }
         break;
     case UNKNOWN:
         lookup(nextChar);
