@@ -200,6 +200,6 @@ int lex(void)
         break;
     }
 
-    printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
+    printf("Next token is: %d, Next lexeme is: %s\n", nextToken, lexeme);
     return nextToken;
 }
